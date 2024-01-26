@@ -16,11 +16,21 @@ csv_file_path = filedialog.askopenfilename(title="Select CSV File", filetypes=[(
 if csv_file_path:
     # Read the CSV file and create a DataFrame
     df = pd.read_csv(csv_file_path)
+    data=pd.DataFrame(df)
 
     # Print the DataFrame
     print(df)
 else:
     print("No file selected.")
+
+#discrete or continuous
+for column in data.columns:
+    unique_values = data[column].unique()
+
+    if len(unique_values) < 5:
+        print(f"Attribute '{column}' has discrete values.")
+    else:
+        print(f"Attribute '{column}' has continuous values.")
 #*****************************************************************************
 #*****************************************************************************
 #DESCRIPTIVE ANALYSIS
