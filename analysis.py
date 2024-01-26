@@ -2,6 +2,25 @@ import numpy as np
 from scipy import stats
 from scipy.stats import chi2_contingency,mode, skew, kurtosis,norm, expon, uniform, binom, poisson
 import matplotlib.pyplot as plt
+from tkinter import filedialog
+import tkinter as tk
+import pandas as pd
+
+root = tk.Tk()
+root.withdraw()
+
+# Prompt the user to select a CSV file
+csv_file_path = filedialog.askopenfilename(title="Select CSV File", filetypes=[("CSV files", "*.csv")])
+
+# Check if a file was selected
+if csv_file_path:
+    # Read the CSV file and create a DataFrame
+    df = pd.read_csv(csv_file_path)
+
+    # Print the DataFrame
+    print(df)
+else:
+    print("No file selected.")
 #*****************************************************************************
 #*****************************************************************************
 #DESCRIPTIVE ANALYSIS
