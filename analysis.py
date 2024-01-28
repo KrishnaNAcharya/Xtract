@@ -5,208 +5,137 @@ import matplotlib.pyplot as plt
 from tkinter import filedialog
 import tkinter as tk
 import pandas as pd
+# Function to read CSV file
+def read_csv():
+    root = tk.Tk()
+    root.withdraw()
 
-root = tk.Tk()
-root.withdraw()
+    # Prompt the user to select a CSV file
+    csv_file_path = filedialog.askopenfilename(title="Select CSV File", filetypes=[("CSV files", "*.csv")])
 
-# Prompt the user to select a CSV file
-csv_file_path = filedialog.askopenfilename(title="Select CSV File", filetypes=[("CSV files", "*.csv")])
-
-# Check if a file was selected
-if csv_file_path:
-    # Read the CSV file and create a DataFrame
-    df = pd.read_csv(csv_file_path)
-    data=pd.DataFrame(df)
-
-    # Print the DataFrame
-    print(df)
-else:
-    print("No file selected.")
-
-#discrete or continuous
-for column in data.columns:
-    unique_values = data[column].unique()
-
-    if len(unique_values) < 5:
-        print(f"Attribute '{column}' has discrete values.")
+    # Check if a file was selected
+    if csv_file_path:
+        # Read the CSV file and create a DataFrame
+        df = pd.read_csv(csv_file_path)
+        return df
     else:
-        print(f"Attribute '{column}' has continuous values.")
-#*****************************************************************************
-#*****************************************************************************
-#DESCRIPTIVE ANALYSIS
-def print_mean(data):
-    print(f"Mean: {np.mean(data)}")
+        print("No file selected.")
+        return None
 
-def print_median(data):
-    print(f"Median: {np.median(data)}")
+# Function to calculate mean
+def calculate_mean(data, column_name):
+    mean_value = data.mean()
+    print(f"Mean for '{column_name}': {mean_value}")
+    return mean_value
 
-def print_mode(data):
-    print(f"Mode: {mode(data).mode[0]}")
+# Function to calculate mode
+def calculate_mode(data, column_name):
+    mode_value = data.mode().iloc[0]
+    print(f"Mode for '{column_name}': {mode_value}")
+    return mode_value
 
-def print_range(data):
-    print(f"Range: {np.ptp(data)}")
+# Function to calculate median
+def calculate_median(data, column_name):
+    median_value = data.median()
+    print(f"Median for '{column_name}': {median_value}")
+    return median_value
 
-def print_variance(data):
-    print(f"Variance: {np.var(data)}")
+# Function to calculate minimum
+def calculate_minimum(data, column_name):
+    min_value = data.min()
+    print(f"Minimum for '{column_name}': {min_value}")
+    return min_value
 
-def print_std_deviation(data):
-    print(f"Standard Deviation: {np.std(data)}")
+# Function to calculate maximum
+def calculate_maximum(data, column_name):
+    max_value = data.max()
+    print(f"Maximum for '{column_name}': {max_value}")
+    return max_value
 
-def print_percentiles(data):
-    percentiles = np.percentile(data, [25, 75])
-    print(f"25th Percentile (Q1): {percentiles[0]}")
-    print(f"75th Percentile (Q3): {percentiles[1]}")
+# Function to calculate quartiles
+def calculate_quartiles(data, column_name):
+    q1 = np.percentile(data, 25, interpolation='midpoint')
+    q3 = np.percentile(data, 75, interpolation='midpoint')
+    print(f"Q1 for '{column_name}': {q1}")
+    print(f"Q3 for '{column_name}': {q3}")
+    return q1, q3
 
-def print_skewness(data):
-    print(f"Skewness: {skew(data)}")
+# Function to calculate sum of squared errors
+def calculate_sse(data, column_name):
+    mean_value = calculate_mean(data, column_name)
+    sse_value = np.sum((data - mean_value) ** 2)
+    print(f"Sum of Squared Errors for '{column_name}': {sse_value}")
+    return sse_value
 
-def print_kurtosis(data):
-    print(f"Kurtosis: {kurtosis(data)}")
+# Function to calculate skewness
+def calculate_skewness(data, column_name):
+    skewness_value = data.skew()
+    print(f"Skewness for '{column_name}': {skewness_value}")
+    return skewness_value
 
-def plot_histogram(data):
-    plt.hist(data, bins=20, edgecolor='black')
-    plt.title("Histogram")
-    plt.xlabel("Value")
-    plt.ylabel("Frequency")
-    plt.show()
+# Function to calculate kurtosis
+def calculate_kurtosis(data, column_name):
+    kurtosis_value = data.kurtosis()
+    print(f"Kurtosis for '{column_name}': {kurtosis_value}")
+    return kurtosis_value
 
-# Sample data
-data = np.random.normal(50, 10, 1000)
+# Function to calculate sample standard deviation
+def calculate_sample_std_dev(data, column_name):
+    std_dev_value = data.std(ddof=1)
+    print(f"Sample Standard Deviation for '{column_name}': {std_dev_value}")
+    return std_dev_value
 
-# Central Tendency Measures
-print_mean(data)
-print_median(data)
-print_mode(data)
+# Function to calculate population standard deviation
+def calculate_population_std_dev(data, column_name):
+    std_dev_value = data.std()
+    print(f"Population Standard Deviation for '{column_name}': {std_dev_value}")
+    return std_dev_value
 
-# Dispersion Measures
-print_range(data)
-print_variance(data)
-print_std_deviation(data)
+# Function to calculate sample variance
+def calculate_sample_variance(data, column_name):
+    variance_value = data.var(ddof=1)
+    print(f"Sample Variance for '{column_name}': {variance_value}")
+    return variance_value
 
-# Position Measures
-print_percentiles(data)
+# Function to calculate population variance
+def calculate_population_variance(data, column_name):
+    variance_value = data.var()
+    print(f"Population Variance for '{column_name}': {variance_value}")
+    return variance_value
 
-# Distribution Shape Measures
-print_skewness(data)
-print_kurtosis(data)
+# Function to print statistics for a column
+def print_column_statistics(data, column_name):
+    try:
+        column_data = data[column_name].astype(float)
+        calculate_mean(column_data, column_name)
+        calculate_mode(column_data, column_name)
+        calculate_median(column_data, column_name)
+        calculate_minimum(column_data, column_name)
+        calculate_maximum(column_data, column_name)
+        calculate_quartiles(column_data, column_name)
+        calculate_sse(column_data, column_name)
+        calculate_skewness(column_data, column_name)
+        calculate_kurtosis(column_data, column_name)
+        calculate_sample_std_dev(column_data, column_name)
+        calculate_population_std_dev(column_data, column_name)
+        calculate_sample_variance(column_data, column_name)
+        calculate_population_variance(column_data, column_name)
+        
+        
 
-# Plot Histogram
-plot_histogram(data)
+    except ValueError:
+        print(f"\nUnable to calculate statistics for '{column_name}'. Contains non-numeric values.")
 
+# Main function
+def main():
+    # Read CSV file
+    df = read_csv()
 
-#*************************************************************************************
-#**************************************************************************************
-#PROBABBILITY DISTRIBUTIONS
-# Continuous Distributions
+    if df is not None:
+        # Iterate over each column and print statistics
+        for column_name in df.columns:
+            print_column_statistics(df, column_name)
 
-def generate_normal_distribution(mu, sigma, size):
-    data = np.random.normal(mu, sigma, size)
-    print(f"Generated Normal Distribution: {data}")
-    
-def generate_exponential_distribution(lambda_param, size):
-    data = np.random.exponential(1/lambda_param, size)
-    print(f"Generated Exponential Distribution: {data}")
-
-def generate_uniform_distribution(low, high, size):
-    data = np.random.uniform(low, high, size)
-    print(f"Generated Uniform Distribution: {data}")
-
-# Discrete Distributions
-
-def generate_binomial_distribution(n, p, size):
-    data = np.random.binomial(n, p, size)
-    print(f"Generated Binomial Distribution: {data}")
-
-def generate_poisson_distribution(lambda_poisson, size):
-    data = np.random.poisson(lambda_poisson, size)
-    print(f"Generated Poisson Distribution: {data}")
-
-# Plotting
-
-def plot_histogram(data, bins, title, color):
-    plt.hist(data, bins=bins, color=color, alpha=0.7)
-    plt.title(title)
-    plt.show()
-
-# Parameters
-size = 1000
-
-# Continuous Distributions
-generate_normal_distribution(0, 1, size)
-generate_exponential_distribution(1, size)
-generate_uniform_distribution(0, 1, size)
-
-# Discrete Distributions
-n, p = 10, 0.5
-generate_binomial_distribution(n, p, size)
-
-lambda_poisson = 3
-generate_poisson_distribution(lambda_poisson, size)
-#********************************************************************************************
-#********************************************************************************************
-
-#HYPOTHESIS TESTING
-# T-tests
-
-def one_sample_t_test(sample, pop_mean):
-    t_stat, p_value = stats.ttest_1samp(sample, pop_mean)
-    print(f"One-Sample t-test:")
-    print(f"T-statistic: {t_stat}")
-    print(f"P-value: {p_value}")
-
-def two_sample_t_test(sample1, sample2):
-    t_stat, p_value = stats.ttest_ind(sample1, sample2)
-    print(f"Two-Sample t-test:")
-    print(f"T-statistic: {t_stat}")
-    print(f"P-value: {p_value}")
-
-def paired_t_test(before, after):
-    t_stat, p_value = stats.ttest_rel(before, after)
-    print(f"Paired t-test:")
-    print(f"T-statistic: {t_stat}")
-    print(f"P-value: {p_value}")
-
-# ANOVA
-
-def one_way_anova(*groups):
-    f_stat, p_value = stats.f_oneway(*groups)
-    print(f"One-Way ANOVA:")
-    print(f"F-statistic: {f_stat}")
-    print(f"P-value: {p_value}")
-
-def two_way_anova(data, factor1, factor2):
-    model = stats.ols("value ~ C({}) * C({})".format(factor1, factor2), data).fit()
-    anova_table = stats.anova_lm(model, typ=2)
-    print("Two-Way ANOVA:")
-    print(anova_table)
-
-# Z-test
-
-def z_test(sample, pop_mean, pop_std):
-    z_stat, p_value = stats.ztest(sample, value=pop_mean, std_dev=pop_std)
-    print(f"Z-test:")
-    print(f"Z-statistic: {z_stat}")
-    print(f"P-value: {p_value}")
-
-# Example usage
-
-# Generate sample data
-np.random.seed(42)
-sample1 = np.random.normal(30, 5, 50)
-sample2 = np.random.normal(35, 5, 50)
-before = np.random.normal(40, 5, 30)
-after = before + np.random.normal(5, 2, 30)
-
-# T-tests
-one_sample_t_test(sample1, 30)
-two_sample_t_test(sample1, sample2)
-paired_t_test(before, after)
-
-# ANOVA
-one_way_anova(sample1, sample2, before)
-two_way_anova(data={'value': np.concatenate([sample1, sample2, before, after]),
-                    'group': ['Group1'] * 50 + ['Group2'] * 50 + ['Before'] * 30 + ['After'] * 30},
-              factor1='group', factor2='group')
-
-# Z-test
-z_test(sample1, 30, 5)
+# Run the main function
+if __name__ == "__main__":
+    main()
