@@ -22,6 +22,13 @@ def read_csv():
         print("No file selected.")
         return None
 
+def get_save_location():
+    root = tk.Tk()
+    root.withdraw()
+    save_location = filedialog.askdirectory(title="Select Save Location for graphs")
+    root.destroy()
+    return save_location
+
 # Function to calculate mean
 def calculate_mean(data, column_name):
     mean_value = data.mean()
@@ -103,6 +110,80 @@ def calculate_population_variance(data, column_name):
     print(f"Population Variance for '{column_name}': {variance_value}")
     return variance_value
 
+
+
+# Function to get user input for plot generation
+def get_plot_choice(plot_type):
+    user_input = input(f"Do you want to generate {plot_type} plot? (yes/no): ").lower()
+    return user_input == 'yes'
+
+def get_x_y_values():
+    root = tk.Tk()
+    root.withdraw()
+
+    # Prompt the user to enter the x and y column names
+    x_column = input("Enter the x column name: ")
+    y_column = input("Enter the y column name: ")
+    
+      # Explicitly destroy the Tkinter window
+    root.destroy()
+    
+    return x_column, y_column
+
+def get_save_location():
+    root = tk.Tk()
+    root.withdraw()
+    save_location = filedialog.askdirectory(title="Select Save Location")
+    root.destroy()
+    return save_location
+
+# Function to generate scatter plot and save as PNG
+def generate_scatter_plot(data, column_x, column_y, save_location):
+    plt.scatter(data[column_x], data[column_y])
+    plt.title(f"Scatter Plot for '{column_x}' vs '{column_y}'")
+    plt.xlabel(column_x)
+    plt.ylabel(column_y)
+    plt.savefig(f"{save_location}/scatter_plot.png")
+    plt.show()
+
+# Function to generate line plot and save as PNG
+def generate_line_plot(data, column_x, column_y, save_location):
+    plt.plot(data[column_x], data[column_y])
+    plt.title(f"Line Plot for '{column_x}' vs '{column_y}'")
+    plt.xlabel(column_x)
+    plt.ylabel(column_y)
+    plt.savefig(f"{save_location}/line_plot.png")
+    plt.show()
+
+# Function to generate bar plot and save as PNG
+def generate_bar_plot(data, column_x, column_y, save_location):
+    plt.bar(data[column_x], data[column_y])
+    plt.title(f"Bar Plot for '{column_x}' vs '{column_y}'")
+    plt.xlabel(column_x)
+    plt.ylabel(column_y)
+    plt.savefig(f"{save_location}/bar_plot.png")
+    plt.show()
+
+# Function to generate box plot and save as PNG
+def generate_box_plot(data, column_x, column_y, save_location):
+    plt.boxplot([data[data[column_x] == category][column_y] for category in data[column_x]], vert=False)
+    plt.title(f"Box Plot for '{column_y}' grouped by '{column_x}'")
+    plt.xlabel(column_y)
+    plt.savefig(f"{save_location}/box_plot.png")
+    plt.show()
+
+
+# Function to generate histogram and save as PNG
+def generate_histogram(data, column_name, save_location):
+    plt.hist(data, bins=20, edgecolor='black')
+    plt.title(f"Histogram for '{column_name}'")
+    plt.xlabel("Value")
+    plt.ylabel("Frequency")
+    plt.savefig(f"{save_location}/{column_name}_histogram.png")
+    plt.show()
+    plt.close()
+
+
 # Function to print statistics for a column
 def print_column_statistics(data, column_name):
     try:
@@ -121,11 +202,14 @@ def print_column_statistics(data, column_name):
         calculate_sample_variance(column_data, column_name)
         calculate_population_variance(column_data, column_name)
         
+        print("\n" + "=" * 40 + "\n")
         
-
-    except ValueError:
-        print(f"\nUnable to calculate statistics for '{column_name}'. Contains non-numeric values.")
-
+      
+         
+    except Exception as e:
+        print(f"\nUnable to process '{column_name}': {str(e)}")
+        
+# Main function
 # Main function
 def main():
     # Read CSV file
@@ -135,6 +219,27 @@ def main():
         # Iterate over each column and print statistics
         for column_name in df.columns:
             print_column_statistics(df, column_name)
+
+        # Ask for x and y columns after all computations
+        x_column, y_column = get_x_y_values()
+
+        # Ask for the save location
+        save_location = get_save_location()
+
+        if get_plot_choice("scatter"):
+            generate_scatter_plot(df, x_column, y_column, save_location)
+
+        if get_plot_choice("line"):
+            generate_line_plot(df, x_column, y_column, save_location)
+
+        if get_plot_choice("bar"):
+            generate_bar_plot(df, x_column, y_column, save_location)
+
+        if get_plot_choice("box"):
+            generate_box_plot(df, x_column, y_column, save_location)
+
+        if get_plot_choice("histogram"):
+            generate_histogram(df[y_column], y_column, save_location)
 
 # Run the main function
 if __name__ == "__main__":
