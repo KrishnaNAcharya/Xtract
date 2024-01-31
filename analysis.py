@@ -5,10 +5,12 @@ import matplotlib.pyplot as plt
 from tkinter import filedialog
 import tkinter as tk
 import pandas as pd
+import os
 # Function to read CSV file
+root = tk.Tk()
+root.withdraw()
+
 def read_csv():
-    root = tk.Tk()
-    root.withdraw()
 
     # Prompt the user to select a CSV file
     csv_file_path = filedialog.askopenfilename(title="Select CSV File", filetypes=[("CSV files", "*.csv")])
@@ -21,14 +23,17 @@ def read_csv():
     else:
         print("No file selected.")
         return None
+    
+def get_plot_choice(plot_type):
+    user_input = input(f"Do you want to generate {plot_type} plot? (yes/no): ").lower()
+    return user_input == 'yes'
 
-def get_save_location():
-    root = tk.Tk()
-    root.withdraw()
-    save_location = filedialog.askdirectory(title="Select Save Location for graphs")
-    root.destroy()
-    return save_location
-
+def get_x_y_values():
+    # Prompt the user to enter the x and y column names
+    x_column = input("Enter the x column name: ")
+    y_column = input("Enter the y column name: ")
+    
+    return x_column, y_column
 # Function to calculate mean
 def calculate_mean(data, column_name):
     mean_value = data.mean()
@@ -110,34 +115,16 @@ def calculate_population_variance(data, column_name):
     print(f"Population Variance for '{column_name}': {variance_value}")
     return variance_value
 
-
-
-# Function to get user input for plot generation
-def get_plot_choice(plot_type):
-    user_input = input(f"Do you want to generate {plot_type} plot? (yes/no): ").lower()
-    return user_input == 'yes'
-
-def get_x_y_values():
-    root = tk.Tk()
-    root.withdraw()
-
-    # Prompt the user to enter the x and y column names
-    x_column = input("Enter the x column name: ")
-    y_column = input("Enter the y column name: ")
-    
-      # Explicitly destroy the Tkinter window
-    root.destroy()
-    
-    return x_column, y_column
-
-def get_save_location():
-    root = tk.Tk()
-    root.withdraw()
-    save_location = filedialog.askdirectory(title="Select Save Location")
-    root.destroy()
-    return save_location
-
 # Function to generate scatter plot and save as PNG
+def generate_scatter_plot(data, column_x, column_y):
+    plt.scatter(data[column_x], data[column_y])
+    plt.title(f"Scatter Plot for '{column_x}' vs '{column_y}'")
+    plt.xlabel(column_x)
+    plt.ylabel(column_y)
+   
+    plt.show()
+
+# Function to generate line plot and save as PNG
 def generate_scatter_plot(data, column_x, column_y, save_location):
     plt.scatter(data[column_x], data[column_y])
     plt.title(f"Scatter Plot for '{column_x}' vs '{column_y}'")
@@ -171,17 +158,23 @@ def generate_box_plot(data, column_x, column_y, save_location):
     plt.xlabel(column_y)
     plt.savefig(f"{save_location}/box_plot.png")
     plt.show()
-
-
 # Function to generate histogram and save as PNG
 def generate_histogram(data, column_name, save_location):
     plt.hist(data, bins=20, edgecolor='black')
     plt.title(f"Histogram for '{column_name}'")
     plt.xlabel("Value")
     plt.ylabel("Frequency")
-    plt.savefig(f"{save_location}/{column_name}_histogram.png")
     plt.show()
-    plt.close()
+    
+    
+    #Piechart
+def generate_pie_chart(data, column_name, save_location):
+    counts = data[column_name].value_counts()
+    plt.pie(counts, labels=counts.index, autopct='%1.1f%%', startangle=140)
+    plt.title(f"Pie Chart for '{column_name}'")
+    plt.savefig(f"{save_location}/pie_chart_{column_name}.png")
+    plt.show()
+
 
 
 # Function to print statistics for a column
@@ -223,8 +216,8 @@ def main():
         # Ask for x and y columns after all computations
         x_column, y_column = get_x_y_values()
 
-        # Ask for the save location
-        save_location = get_save_location()
+        # Specify the save location
+        save_location = r"E:\hackloop\Statistical-data-extractor-1\graphs"
 
         if get_plot_choice("scatter"):
             generate_scatter_plot(df, x_column, y_column, save_location)
@@ -240,7 +233,22 @@ def main():
 
         if get_plot_choice("histogram"):
             generate_histogram(df[y_column], y_column, save_location)
+        
+        if get_plot_choice("pie"):
+            generate_pie_chart(df, x_column, save_location)
 
+            
+        delete_files = input("Do you want to delete the generated PNG files? (yes/no): ").lower()
+
+        if delete_files == 'yes':
+            # Delete PNG files in the specified directory
+            for file_name in os.listdir(save_location):
+                if file_name.endswith(".png"):
+                    file_path = os.path.join(save_location, file_name)
+                    os.remove(file_path)
+            print("PNG files deleted.")
+        else:
+            print("PNG files not deleted.")
 # Run the main function
 if __name__ == "__main__":
     main()
