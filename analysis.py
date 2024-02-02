@@ -116,15 +116,6 @@ def calculate_population_variance(data, column_name):
     return variance_value
 
 # Function to generate scatter plot and save as PNG
-def generate_scatter_plot(data, column_x, column_y):
-    plt.scatter(data[column_x], data[column_y])
-    plt.title(f"Scatter Plot for '{column_x}' vs '{column_y}'")
-    plt.xlabel(column_x)
-    plt.ylabel(column_y)
-   
-    plt.show()
-
-# Function to generate line plot and save as PNG
 def generate_scatter_plot(data, column_x, column_y, save_location):
     plt.scatter(data[column_x], data[column_y])
     plt.title(f"Scatter Plot for '{column_x}' vs '{column_y}'")
