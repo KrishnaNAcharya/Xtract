@@ -1,93 +1,5 @@
-//      async function upload() {
-//      //fetching data from the form
-//      const form = document.getElementById("fileUploadForm");
-//      const formData = new FormData(form);
-//      //uploading by making a post request
-//      try {
-//        const request = await fetch("http://localhost:5173/upload", {
-//          method: "POST",
-//          body: formData,
-//        });
-//        const message = await request.text();
-//        console.log(message);
-//      } catch (err) {
-//        console.error(err);
-//      }
-//
-//      //getting column names
-//      try {
-//        const optionResponse = await fetch("http://localhost:5173/getColumns");
-//        let options = await optionResponse.text();
-//        options = options.split(/\r?\n/).filter((value) => value.trim() !== "");
-//
-//        //getting the data container
-//        const dataContainer = document.getElementById("dataContainer");
-//        dataContainer.innerHTML = "";
-//
-//        const attributeSelect = document.createElement("select");
-//        attributeSelect.setAttribute("id", "attributeSelect");
-//        attributeSelect.setAttribute("onchange", "getData()");
-//        dataContainer.appendChild(attributeSelect);
-//
-//        for (let i = 0; i < options.length; i++) {
-//          console.log(option[i])
-//          const option = document.createElement("option");
-//          option.setAttribute("value", `${option[i + 1]}`);
-//          option.innerHTML = options[i];
-//        }
-//        attributeSelect.appendChild(option);
-//
-//        //getting options for the graph
-//        const attributeContainer = document.getElementById("attributeContainer");
-//        attributeContainer.innerHTML = "";
-//
-//        const attributeSelectX = document.createElement("select");
-//        attributeSelectX.setAttribute("id", "attributeSelectX");
-//        attributeContainer.appendChild(attributeSelectX);
-//
-//        for (let i = 0; i < options.length; i++) {
-//          const option = document.createElement("option");
-//          option.setAttribute("value", `${option[i + 1]}`);
-//          option.innerHTML = options[i];
-//          attributeSelectX.appendChild(option);
-//        }
-//      } catch (error) {
-//        console.error(error);
-//      }
+//-----------------------------READ--------------------------------
 
-//   add content to graph section
-//     const selectGraph = document.getElementById("selectGraph");
-//     selectGraph.innerHTML = `<div>
-//         <form id="graphSelect">
-//             <label for="graphOptions">Select the type of graph:</label>
-//             <select
-//               id="graphOptions"
-//               name="graphOptions"
-//               onchange="selectGraph()"
-//             >
-//                 <option value="option1">Histogram</option>
-//                 <option value="option2">Box Plot</option>
-//                 <option value="option3">Pie Chart</option>
-//                 <option value="option4">Line Graph</option>
-//                 <option value="option5">Bar Graph</option>
-//                 <option value="option6">Scatter Plot</option>
-//                 <option value="option7">
-//                   Line Chart with Multiple Lines
-//                 </option>
-//                 <option value="option8">Bubble Chart</option>
-//                 <option value="option9">Contour Plot</option>
-//                 <option value="option10">Heatmap</option>
-//                 <option value="option11">2D Histogram</option>
-//                 <option value="option12">Categorical Scatter Plot</option>
-//                 <option value="option13">Stacked Bar Chart</option>
-//             </select>
-//             <button type="button" onclick="generateGraph()">
-//               Generate
-//             </button>
-//         </form>
-//         </div>`;
-//     }
-//
 async function read() {
   const form = document.getElementById("fileUploadForm");
   const formData = new FormData(form);
@@ -184,41 +96,17 @@ async function read() {
       option.innerHTML = options[i];
       attributeSelectX.appendChild(option);
     }
+
+    const fileInput = document.getElementById("fileInput");
+    fileInput.setAttribute("disabled", "true");
   } catch (err) {
     console.error(err);
   }
-
-  // const extractButton = document.createElement("button");
-  // extractButton.setAttribute("id", "extract");
-  // extractButton.setAttribute(
-  //   "style",
-  //   "padding:16px 40px; margin: 7px 0px -29px 13px"
-  // );
-  // extractButton.setAttribute(
-  //   "class",
-  //   "transition ease-in-out cursor-pointer bg-blue-900 hover:-translate-y-1 hover:scale-110 hover:bg-purple-900 duration-300 text-white font-bold rounded-md"
-  // );
-  // extractButton.setAttribute("type", "button");
-  // extractButton.setAttribute("onclick", "getData()");
-  // extractButton.innerHTML = `Extract`;
-  // extractAttributeContainer.appendChild(extractButton);
 }
 
+//---------------------------------GET DATA---------------------------
+
 async function getData() {
-  // const form = document.getElementById("fileUploadForm");
-  // const formData = new FormData(form);
-
-  // try {
-  //   const request = await fetch("http://localhost:5173/upload", {
-  //     method: "POST",
-  //     body: formData,
-  //   });
-  //   const message = await request.text();
-  //   console.log(message);
-  // } catch (err) {
-  //   console.error(err);
-  // }
-
   try {
     const extractAttribute = document.getElementById("extractAttribute");
     const extractAttributeName =
@@ -240,66 +128,9 @@ async function getData() {
   } catch (err) {
     console.error(err);
   }
-  //   //add content to graph section
-  //   const selectGraph = document.getElementById("selectGraph");
-  //   selectGraph.innerHTML = `<div>
-  //       <form style="display:flex; justify-content:center;" id="graphSelect">
-  //         <div style = "margin-top: 12px; display:flex; justify-content: center">
-  //           <div style = "margin-top:10px;">
-  //             <label for="graphOptions">Select the type of graph:</label>
-  //             <select
-  //               id="graphOptions"
-  //               name="graphOptions"
-  //               onchange="selectGraph()"
-  //             >
-  //                 <option value="option1">Histogram</option>
-  //                 <option value="option2">Box Plot</option>
-  //                 <option value="option3">Pie Chart</option>
-  //                 <option value="option4">Line Graph</option>
-  //                 <option value="option5">Bar Graph</option>
-  //                 <option value="option6">Scatter Plot</option>
-  //                 <option value="option7">Contour Plot</option>
-  //                 <option value="option8">Heat Map</option>
-  //             </select>
-  //           </div>
-  //           <div id="attributeContainer"></div>
-  //         </div>
-  //         <div>
-  //           <button style = "padding:16px 40px; margin: 7px 0px -29px 13px"
-  //                   class = "transition ease-in-out cursor-pointer bg-blue-900 hover:-translate-y-1 hover:scale-110 hover:bg-purple-900 duration-300 text-white font-bold rounded-md"
-  //                   type="button"
-  //                   onclick="generateGraph()">
-  //             Generate
-  //           </button>
-  //         </div>
-  //       </form>
-
-  //     </div>`;
-
-  //   //getting options for the graph
-  //   const attributeContainer = document.getElementById("attributeContainer");
-  //   document.getElementById("defaultMessage").innerHTML = "";
-
-  //   const attributeSelectX = document.createElement("select");
-  //   attributeSelectX.setAttribute("id", "attributeSelectX");
-  //   attributeSelectX.setAttribute("style", `margin: 10px`);
-
-  //   attributeContainer.appendChild(attributeSelectX);
-
-  //   const optionResponse = await fetch("http://localhost:5173/getColumns");
-  //   let options = await optionResponse.text();
-  //   options = options.split(/\r?\n/).filter((value) => value.trim() !== "");
-
-  //   for (let i = 0; i < options.length; i++) {
-  //     const option = document.createElement("option");
-  //     option.setAttribute("value", `${option[i + 1]}`);
-  //     option.innerHTML = options[i];
-  //     attributeSelectX.appendChild(option);
-  //   }
-  // } catch (err) {
-  //   console.error(err);
-  // }
 }
+
+//------------------------------SELECT GRAPH----------------------------
 
 async function selectGraph() {
   const attributeContainer = document.getElementById("attributeContainer");
@@ -366,6 +197,9 @@ async function selectGraph() {
     }
   }
 }
+
+//----------------------------GENERATE GRAPH--------------------------
+
 async function generateGraph() {
   const graphContainer = document.getElementById("graphContainer");
   // clearing so it doesn't pile up
@@ -447,10 +281,11 @@ async function generateGraph() {
   }
 }
 
+//------------------------------RESET-----------------------------------
+
 async function resetForm() {
-  // const fileInput = document.getElementById("fileUploadForm").elements.csvFile;
-  // const fullPath = fileInput.value;
-  // const fileName = fullPath.split("\\").pop();
+  document.getElementById("fileInput").removeAttribute("disabled");
+
   const form = document.getElementById("fileUploadForm");
   form.reset();
 
@@ -462,7 +297,6 @@ async function resetForm() {
 
   try {
     const url = new URL(`http://localhost:5173/reset`);
-    // url.searchParams.append("fileName",fileName)
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -476,4 +310,4 @@ async function resetForm() {
   }
 }
 
-// window.addEventListener("beforeunload", resetForm);
+window.addEventListener("beforeunload", resetForm);
