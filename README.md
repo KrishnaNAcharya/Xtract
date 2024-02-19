@@ -9,8 +9,21 @@ These results include the statistical data and graphs describing the dataset
 git clone https://github.com/AvyayNayak/Xtract.git
 ```
 ### Install dependencies
+Open your terminal and run this
 ```bash
 npm i
+```
+For the python scripts, a virtual environment already exists within the repository. Simply run the following command to activate the virtual environment.
+```bash
+.\env\Scripts\activate
+```
+For those who run into an unauthorized access error, run the following command to bypass the execution policy temporarily:
+```bash
+Set-ExecutionPolicy Bypass -Scope Process
+```
+If you want to make a permanent change to the execution policy, run this
+```bash
+Set-ExecutionPolicy Bypass -Scope CurrentUser
 ```
 
 ## How to update code
