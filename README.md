@@ -13,7 +13,7 @@ Open your terminal and run this
 ```bash
 npm i
 ```
-For the python scripts, a virtual environment already exists within the repository. Simply run the following command to activate the virtual environment.
+For the python scripts, a virtual environment already exists within the repository. Simply run this command to it.
 ```bash
 .\env\Scripts\activate
 ```
