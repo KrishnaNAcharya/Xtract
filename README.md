@@ -4,7 +4,8 @@ The dataset recieved from the user is processed by the python scripts at the bac
 The results of the analysis so obtained are sent back to the user.
 These results include the statistical data and graphs describing the dataset
 
-## Clone the repository
+## Steps to run
+Firstly, clone this repository in your desired directory
 ```bash
 git clone https://github.com/AvyayNayak/Xtract.git
 ```
@@ -13,11 +14,11 @@ Open your terminal and run this
 ```bash
 npm i
 ```
-For the python scripts, a virtual environment already exists within the repository. Simply run this command to it.
+For the python scripts, a virtual environment already exists within the repository. Simply run this command to it
 ```bash
 .\env\Scripts\activate
 ```
-For those who run into an unauthorized access error, run the following command to bypass the execution policy temporarily:
+For those who run into an unauthorized access error, run the following command to bypass the execution policy temporarily
 ```bash
 Set-ExecutionPolicy Bypass -Scope Process
 ```
