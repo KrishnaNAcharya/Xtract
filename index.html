@@ -8,12 +8,20 @@
     <link rel="stylesheet" href="input.css" />
     <link rel="stylesheet" href="style.css" />
     <script src="script.js"></script>
+    <script>
+      function toggleNavbar() {
+        if (document.getElementById("navbar").style.visibility === "hidden") {
+          document.getElementById("navbar").style.visibility = "visible";
+        } else document.getElementById("navbar").style.visibility = "hidden";
+      }
+    </script>
   </head>
 
   <body>
     <div
       class="containing"
       style="
+        position: relative;
         margin-bottom: 80px;
         min-width: 100vw;
         min-height: 100vh;
@@ -27,19 +35,20 @@
       >
         <h1
           style="
-            font-size: xx-large;
+            font-size: 66px;
             font-weight: bolder;
-            color: azure;
-            font-family: 'Times New Roman', Times, serif;
+            color: rgb(255, 255, 255);
+            font-family: myFirstFont;
+            margin-bottom: -40px;
           "
         >
-          Xtract
+          ---------Xtract---------
         </h1>
       </div>
-      <div
-        class="navbar w-full my-4 flex justify-center"
-        style="position: fixed"
-      >
+      <!-- Include the burger menu icon -->
+      <div id="burger-menu" class="burger-menu" onclick="toggleNavbar()">☰</div>
+
+      <div id="navbar" class="navbar w-full my-4 flex justify-center">
         <ul
           style="
             width: 70%;
@@ -47,35 +56,21 @@
               0 6px 8px rgba(0, 0, 0, 0.1);
             background-color: #1e3a8a;
           "
-          class="h-full rounded-xl inline-flex justify-between m-0"
+          class="h-full inline-flex justify-between m-0"
         >
-          <li
-            class="hover:bg-blue-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 p-8 w-full flex justify-center"
-          >
+          <li class="custom-button">
             <a href="#" class="text-white">Home</a>
           </li>
 
-          <li
-            class="hover:bg-blue-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 p-8 w-full flex justify-center"
-          >
+          <li class="custom-button">
             <a href="#extracts" class="text-white">Extracts</a>
           </li>
 
-          <li
-            class="hover:bg-blue-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 p-8 w-full flex justify-center"
-          >
+          <li class="custom-button">
             <a href="#graphs" class="text-white">Graphs</a>
           </li>
 
-          <li
-            class="hover:bg-blue-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 p-8 w-full flex justify-center"
-          >
-            <a href="#converter" class="text-white">File Converter</a>
-          </li>
-
-          <li
-            class="hover:bg-blue-900 transition ease-in-out hover:-translate-y-1 hover:scale-110 p-8 w-full flex justify-center"
-          >
+          <li class="custom-button">
             <a href="#about" class="text-white">About Us</a>
           </li>
         </ul>
@@ -85,12 +80,14 @@
         style="
           width: 100vw;
           min-height: auto;
-          margin-top: 40px;
+
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          margin-top: 150px;
+
+          position: relative;
+          z-index: 0;
         "
       >
         <div
@@ -101,7 +98,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
-            box-shadow: 5px 10px 12px rgba(0, 0, 0, 0.1),
+            box-shadow: 20px 20px 2px rgba(0, 0, 0, 0.1),
               0 6px 8px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             background-color: #1e3a8a;
@@ -117,13 +114,9 @@
           </div>
           <div
             class="form flex items-center justify-center"
-            style="background-color: #818cf8; height: 18vh; border-radius: 15px"
+            style="background-color: #cecece; height: 18vh; border-radius: 15px"
           >
-            <form
-              id="fileUploadForm"
-              enctype="multipart/form-data"
-              style="width: 100%; display: flex; justify-content: space-around"
-            >
+            <form id="fileUploadForm" enctype="multipart/form-data">
               <label id="fileContainer" for="fileInput">
                 <span id="customButtonText">Choose File : </span>
                 <input
@@ -145,7 +138,7 @@
               </button> -->
               <button
                 type="button"
-                class="transition ease-in-out cursor-pointer bg-blue-900 hover:-translate-y-1 hover:scale-110 hover:bg-purple-900 duration-300 text-white font-bold rounded-md flex justify-center items-center"
+                class="transition ease-in-out cursor-pointer custom2 flex justify-center items-center"
                 style="padding: 16px 40px"
                 onclick="resetForm()"
               >
@@ -163,7 +156,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
-            box-shadow: 5px 10px 12px rgba(0, 0, 0, 0.1),
+            box-shadow: 20px 20px 2px rgba(0, 0, 0, 0.1),
               0 6px 8px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             background-color: #1e3a8a;
@@ -182,7 +175,7 @@
           <div
             id="dataContainer"
             style="
-              background-color: #818cf8;
+              background-color: #cecece;
               height: auto;
               min-height: 7vh;
               border-radius: 15px;
@@ -198,9 +191,7 @@
             >
               No csv file uploaded
             </div>
-            <div id="insights">
-
-            </div>
+            <div id="insights"></div>
           </div>
         </div>
         <div
@@ -212,7 +203,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
-            box-shadow: 5px 10px 12px rgba(0, 0, 0, 0.1),
+            box-shadow: 20px 20px 2px rgba(0, 0, 0, 0.1),
               0 6px 8px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             background-color: #1e3a8a;
@@ -229,7 +220,7 @@
           </div>
           <div
             style="
-              background-color: #818cf8;
+              background-color: #cecece;
               padding-top: 5px;
               padding-bottom: 5px;
               height: auto;
@@ -255,44 +246,6 @@
         </div>
 
         <div
-          id="converter"
-          class="content"
-          style="
-            height: auto;
-            width: 70%;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            box-shadow: 5px 10px 12px rgba(0, 0, 0, 0.1),
-              0 6px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
-            background-color: #1e3a8a;
-            margin-top: 40px;
-          "
-        >
-          <div
-            style="height: 7vh"
-            class="homehead flex justify-center items-center"
-          >
-            <h1 style="font-size: x-large; font-weight: 400; color: azure">
-              File Converter
-            </h1>
-          </div>
-          <div
-            style="
-              background-color: #818cf8;
-              height: auto;
-              min-height: 7vh;
-              border-radius: 15px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            "
-          >
-            <p>Under development</p>
-          </div>
-        </div>
-        <div
           id="about"
           class="content"
           style="
@@ -301,7 +254,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
-            box-shadow: 5px 10px 12px rgba(0, 0, 0, 0.1),
+            box-shadow: 20px 20px 2px rgba(0, 0, 0, 0.1),
               0 6px 8px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             background-color: #1e3a8a;
@@ -318,27 +271,62 @@
           </div>
           <div
             style="
-              background-color: #818cf8;
+              background-color: #cecece;
               height: auto;
               min-height: 15vh;
               border-radius: 15px;
               display: flex;
               justify-content: center;
               align-items: center;
+              word-spacing: 10px;
+              flex-direction: column;
               padding: 50px;
             "
           >
-            <q>
-              Serial Byte" is an innovative data analysis platform that delves
-              into the intricacies of information, unraveling the complexities
-              hidden within data. Our platform is designed to uncover the
-              concealed connections and guide users through the narrative that
-              numbers tell. With a commitment to insightful analysis, Serial
-              Byte transforms raw data into actionable insights, empowering
-              users to make informed decisions. Dive into the depth of
-              information with Serial Byte and embark on a journey of
-              exploration, discovery, and understanding in the world of data.
-            </q>
+            <b
+              class="superfont"
+              style="
+                display: flex;
+                justify-content: center;
+                font-size: xx-large;
+              "
+              >Welcome to Serial Byte!</b
+            >
+
+            This is a hackathon project made by me and my team, Serial Byte. Our
+            web application empowers users to effortlessly uncover statistical
+            insights and generate graphs tailored to their specific needs.<br />
+
+            <b class="superfont" style="font-size: x-large; padding-bottom: 5px"
+              ><br />What We Do?<br
+            /></b>
+
+            Our platform offers a seamless experience for exploring datasets and
+            extracting valuable insights. With just a few clicks, users can
+            generate graphs and charts for the attributes that matter most to
+            them. Whether you're delving into demographic trends, analyzing
+            sales figures, or conducting scientific research, Serial Byte equips
+            you with the tools to visualize your data effectively.<br />
+
+            <b class="superfont" style="font-size: x-large; padding-bottom: 5px"
+              ><br />Why should you use it?<br
+            /></b>
+
+            We understand the time-consuming nature of data analysis. That's why
+            we created Serial Byte—to streamline the process and save you
+            valuable time. Whether you're a seasoned data scientist or a
+            beginner in the field, our intuitive interface and powerful features
+            make analyzing datasets a breeze.<br />
+
+            <b class="superfont" style="font-size: x-large; padding-bottom: 5px"
+              ><br />Who We Serve?<br
+            /></b>
+
+            Serial Byte is designed with data scientists, analysts, researchers,
+            and professionals in mind. Whether you're in academia, business, or
+            any other field that requires data-driven decision-making, Serial
+            Byte is your trusted partner for unlocking the insights hidden
+            within your data.<br />
           </div>
         </div>
       </div>

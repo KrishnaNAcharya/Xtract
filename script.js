@@ -21,7 +21,7 @@ async function read() {
     const extractAttributeContainer = document.getElementById(
       "extractAttributeContainer"
     );
-    extractAttributeContainer.innerHTML = ``;
+    extractAttributeContainer.innerHTML = `<h2 style="padding-top:8px;">Select the attribute: </h2>`;
     const extractAttributeSelect = document.createElement("select");
     extractAttributeSelect.setAttribute("id", "extractAttribute");
     extractAttributeSelect.setAttribute("style", `margin: 10px`);
@@ -72,6 +72,7 @@ async function read() {
           <button style = "padding:16px 40px; margin: 7px 0px -29px 13px" 
                   class = "transition ease-in-out cursor-pointer bg-blue-900 hover:-translate-y-1 hover:scale-110 hover:bg-purple-900 duration-300 text-white font-bold rounded-md" 
                   type="button" 
+                  id="generateButton"
                   onclick="generateGraph()">
             Generate
           </button>
@@ -201,7 +202,10 @@ async function selectGraph() {
 //----------------------------GENERATE GRAPH--------------------------
 
 async function generateGraph() {
+  const generateButton = document.getElementById('generateButton');
+  generateButton.style.visibility="hidden";
   const graphContainer = document.getElementById("graphContainer");
+
   // clearing so it doesn't pile up
   graphContainer.innerHTML = "";
 
@@ -242,7 +246,7 @@ async function generateGraph() {
   // fetching path
   try {
     const response = await fetch(url.toString(), {
-      method: "POst",
+      method: "POST",
       body: JSON.stringify({ x, y }),
       headers: {
         "Content-Type": "application/json",
@@ -272,6 +276,7 @@ async function generateGraph() {
     const image = document.createElement("img");
     image.setAttribute("src", decodedPath);
     graphContainer.appendChild(image);
+    generateButton.style.visibility="visible";
   } catch (error) {
     console.error("Error fetching graph data:", error);
 
