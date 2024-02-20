@@ -21,28 +21,40 @@ async function read() {
     const extractAttributeContainer = document.getElementById(
       "extractAttributeContainer"
     );
-    extractAttributeContainer.innerHTML = `<h2 style="padding-top:8px;">Select the attribute: </h2>`;
+    extractAttributeContainer.innerHTML = `<h2 style="padding-top:15px;">Select the attribute: </h2>`;
     const extractAttributeSelect = document.createElement("select");
     extractAttributeSelect.setAttribute("id", "extractAttribute");
     extractAttributeSelect.setAttribute("style", `margin: 10px`);
-    extractAttributeSelect.setAttribute("onchange", `getData()`);
+    // extractAttributeSelect.setAttribute("onchange", `getData()`);
     extractAttributeContainer.appendChild(extractAttributeSelect);
-    // const label = extractAttributeSelect.document.createElement("label");
-    // label.setAttribute("for", "extractAttribute");
-    // label.innerHTML = `Select the attribute: `;
-    // extractAttributeContainer.appendChild(label);
 
-    //options under the select element
     for (let i = 0; i < options.length; i++) {
       const option = document.createElement("option");
       option.setAttribute("value", `${option[i + 1]}`);
       option.innerHTML = options[i];
       extractAttributeSelect.appendChild(option);
     }
+
     const allElementsOption = document.createElement("option");
     allElementsOption.setAttribute("value", `${options[options.length]}`);
     allElementsOption.innerHTML = `All Attributes`;
     extractAttributeSelect.appendChild(allElementsOption);
+
+    //button
+    const extractButton = document.createElement("button");
+    extractButton.setAttribute(
+      "class",
+      `transition ease-in-out cursor-pointer bg-blue-900 hover:-translate-y-1 hover:scale-110 hover:bg-purple-900 duration-300 text-white font-bold rounded-md`
+    );
+    extractButton.setAttribute(
+      "style",
+      `padding:16px 40px;`
+    );
+    extractButton.setAttribute("type", `button`);
+    extractButton.setAttribute("id", "extractButton");
+    extractButton.setAttribute("onclick", "getData()");
+    extractButton.innerHTML = `Extract`;
+    extractAttributeContainer.appendChild(extractButton);
 
     //add content to graph section
     const selectGraph = document.getElementById("selectGraph");
@@ -93,7 +105,7 @@ async function read() {
 
     for (let i = 0; i < options.length; i++) {
       const option = document.createElement("option");
-      option.setAttribute("value", `${option[i + 1]}`);
+      option.setAttribute("value", `${options[i]}`);
       option.innerHTML = options[i];
       attributeSelectX.appendChild(option);
     }
@@ -112,7 +124,6 @@ async function getData() {
     const extractAttribute = document.getElementById("extractAttribute");
     const extractAttributeName =
       extractAttribute.options[extractAttribute.selectedIndex].text;
-    console.log(extractAttributeName);
 
     const url = new URL("http://localhost:5173/getData");
     url.searchParams.append("attribute", extractAttributeName);
@@ -202,8 +213,8 @@ async function selectGraph() {
 //----------------------------GENERATE GRAPH--------------------------
 
 async function generateGraph() {
-  const generateButton = document.getElementById('generateButton');
-  generateButton.style.visibility="hidden";
+  const generateButton = document.getElementById("generateButton");
+  generateButton.style.visibility = "hidden";
   const graphContainer = document.getElementById("graphContainer");
 
   // clearing so it doesn't pile up
@@ -276,7 +287,7 @@ async function generateGraph() {
     const image = document.createElement("img");
     image.setAttribute("src", decodedPath);
     graphContainer.appendChild(image);
-    generateButton.style.visibility="visible";
+    generateButton.style.visibility = "visible";
   } catch (error) {
     console.error("Error fetching graph data:", error);
 
