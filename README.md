@@ -9,6 +9,7 @@ Firstly, clone this repository in your desired directory
 ```bash
 git clone https://github.com/AvyayNayak/Xtract.git
 ```
+Also, ensure that there is a Python executable installed on your device.
 ### Install dependencies
 Open your terminal and run this
 ```bash
