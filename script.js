@@ -1,71 +1,329 @@
-function resetFileSelection() {
-  const fileInfo = document.getElementById("fileInfo");
-  const container = document.getElementById("container");
-  fileInfo.innerHTML = "";
+//-----------------------------READ--------------------------------
 
-  // Update the content of the container, including excelViewer, tableContainer, and fileInfo
-  container.innerHTML = `
-    <div id="excelViewer"
-         class="out bg-neutral-50 hover:bg-amber-100 rounded-xl h-56 border-solid border-blue-300 border-7 border-r-4"
-         ondragover="allowDrop(event)" ondrop="handleDrop(event)">
-      <div id="tableContainer" class="in content font-sans text-lg text-gray-600 italic leading-relaxed">
-        <p class="flex justify-center items-center h-52">Drag Here</p>
-      </div>
-      <div id="fileInfo"></div>
-    </div>
-  `;
-  const main = document.getElementById("main");
-  const main2 = document.getElementById("main2");
+async function read() {
+  const form = document.getElementById("fileUploadForm");
+  const formData = new FormData(form);
 
-  main.classList.remove("trans");
-  main2.style.width = "";
-  main2.style.height = "";
-  main2.classList.add("right");
-  main2.innerHTML = ``;
+  try {
+    const request = await fetch("http://localhost:5173/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const message = await request.text();
+    console.log(message);
+
+    //getting the column names
+    const optionResponse = await fetch("http://localhost:5173/getColumns");
+    let options = await optionResponse.text();
+    options = options.split(/\r?\n/).filter((value) => value.trim() !== "");
+
+    //inserting the select box
+    const extractAttributeContainer = document.getElementById(
+      "extractAttributeContainer"
+    );
+    extractAttributeContainer.innerHTML = `<h2 style="padding-top:15px;">Select the attribute: </h2>`;
+    const extractAttributeSelect = document.createElement("select");
+    extractAttributeSelect.setAttribute("id", "extractAttribute");
+    extractAttributeSelect.setAttribute("style", `margin: 10px`);
+    // extractAttributeSelect.setAttribute("onchange", `getData()`);
+    extractAttributeContainer.appendChild(extractAttributeSelect);
+
+    for (let i = 0; i < options.length; i++) {
+      const option = document.createElement("option");
+      option.setAttribute("value", `${option[i + 1]}`);
+      option.innerHTML = options[i];
+      extractAttributeSelect.appendChild(option);
+    }
+
+    const allElementsOption = document.createElement("option");
+    allElementsOption.setAttribute("value", `${options[options.length]}`);
+    allElementsOption.innerHTML = `All Attributes`;
+    extractAttributeSelect.appendChild(allElementsOption);
+
+    //button
+    const extractButton = document.createElement("button");
+    extractButton.setAttribute(
+      "class",
+      `transition ease-in-out cursor-pointer bg-blue-900 hover:-translate-y-1 hover:scale-110 hover:bg-purple-900 duration-300 text-white font-bold rounded-md`
+    );
+    extractButton.setAttribute(
+      "style",
+      `padding:16px 40px;`
+    );
+    extractButton.setAttribute("type", `button`);
+    extractButton.setAttribute("id", "extractButton");
+    extractButton.setAttribute("onclick", "getData()");
+    extractButton.innerHTML = `Extract`;
+    extractAttributeContainer.appendChild(extractButton);
+
+    //add content to graph section
+    const selectGraph = document.getElementById("selectGraph");
+    selectGraph.innerHTML = `<div>
+      <form style="display:flex; justify-content:center;" id="graphSelect">
+        <div style = "margin-top: 12px; display:flex; justify-content: center">
+          <div style = "margin-top:10px;">
+            <label for="graphOptions">Select the type of graph:</label>
+            <select
+              id="graphOptions"
+              name="graphOptions"
+              onchange="selectGraph()"
+            >
+                <option value="option1">Histogram</option>
+                <option value="option2">Box Plot</option>
+                <option value="option3">Pie Chart</option>
+                <option value="option4">Line Graph</option>
+                <option value="option5">Bar Graph</option>
+                <option value="option6">Scatter Plot</option>
+                <option value="option7">Contour Plot</option>
+                <option value="option8">Heat Map</option>
+            </select>
+          </div>
+          <div id="attributeContainer"></div>
+        </div>
+        <div>
+          <button style = "padding:16px 40px; margin: 7px 0px -29px 13px" 
+                  class = "transition ease-in-out cursor-pointer bg-blue-900 hover:-translate-y-1 hover:scale-110 hover:bg-purple-900 duration-300 text-white font-bold rounded-md" 
+                  type="button" 
+                  id="generateButton"
+                  onclick="generateGraph()">
+            Generate
+          </button>
+        </div>
+      </form>
+    
+    </div>`;
+
+    //getting options for the graph
+    const attributeContainer = document.getElementById("attributeContainer");
+    document.getElementById("defaultMessage").innerHTML = "";
+
+    const attributeSelectX = document.createElement("select");
+    attributeSelectX.setAttribute("id", "attributeSelectX");
+    attributeSelectX.setAttribute("style", `margin: 10px`);
+
+    attributeContainer.appendChild(attributeSelectX);
+
+    for (let i = 0; i < options.length; i++) {
+      const option = document.createElement("option");
+      option.setAttribute("value", `${options[i]}`);
+      option.innerHTML = options[i];
+      attributeSelectX.appendChild(option);
+    }
+
+    const fileInput = document.getElementById("fileInput");
+    fileInput.setAttribute("disabled", "true");
+  } catch (err) {
+    console.error(err);
+  }
 }
 
-function downbutton() {
-  const main = document.getElementById("main");
-  const main2 = document.getElementById("main2");
+//---------------------------------GET DATA---------------------------
 
-  main.classList.add("trans");
-  main2.style.width = "20vw";
-  main2.style.height = "auto";
-  main2.classList.add("left");
-  main2.innerHTML = `<div class="m-4 bg-indigo-100 rounded-xl h-96 md:w-3/4 shake">
-  <div class="  w-full h-full">
-      <div class="w-full h-1/2 inline-flex justify-center items-center" ><div class="button ">Share</div></div>
-      <div class="w-full h-1/2 inline-flex justify-center items-center" ><div class="button ">Download</div></div>
-  </div>
-</div>`;
+async function getData() {
+  try {
+    const extractAttribute = document.getElementById("extractAttribute");
+    const extractAttributeName =
+      extractAttribute.options[extractAttribute.selectedIndex].text;
+
+    const url = new URL("http://localhost:5173/getData");
+    url.searchParams.append("attribute", extractAttributeName);
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    // Convert the Buffer data to a string using TextDecoder
+    const textDecoder = new TextDecoder("utf-8");
+    const decodedData = textDecoder.decode(new Uint8Array(data.output.data));
+
+    const insights = document.getElementById("insights");
+    insights.innerHTML = `<pre style="padding-top:50px">${decodedData}</pre>`;
+  } catch (err) {
+    console.error(err);
+  }
 }
-function changeColor(element) {
-  // Remove 'active' class from all li elements
-  var lis = document.querySelectorAll(".navi");
-  lis.forEach(function (li) {
-    li.classList.remove("active");
-  });
 
-  // Add 'active' class to the clicked li element
-  element.parentNode.classList.add("active");
+//------------------------------SELECT GRAPH----------------------------
+
+async function selectGraph() {
+  const attributeContainer = document.getElementById("attributeContainer");
+
+  //getting graph name
+  const graph = document.getElementById("graphOptions");
+  const graphName = graph.options[graph.selectedIndex].text;
+
+  //getting the column names
+  const optionResponse = await fetch("http://localhost:5173/getColumns");
+  let options = await optionResponse.text();
+  options = options.split(/\r?\n/).filter((value) => value.trim() !== "");
+
+  //checking type of graph selected
+  if (graphName == "Heat Map") {
+    attributeContainer.innerHTML = "";
+  } else if (
+    graphName == "Histogram" ||
+    graphName == "Box Plot" ||
+    graphName == "Pie Chart"
+  ) {
+    //clearing so it doesnt pile up
+    attributeContainer.innerHTML = "";
+
+    const attributeSelectX = document.createElement("select");
+    attributeSelectX.setAttribute("id", "attributeSelectX");
+    attributeSelectX.setAttribute("style", `margin: 10px`);
+
+    attributeContainer.appendChild(attributeSelectX);
+
+    for (let i = 0; i < options.length; i++) {
+      const option = document.createElement("option");
+      option.setAttribute("value", `${option[i + 1]}`);
+      option.innerHTML = options[i];
+      attributeSelectX.appendChild(option);
+    }
+  } else {
+    attributeContainer.innerHTML = "";
+
+    const attributeSelectX = document.createElement("select");
+    attributeSelectX.setAttribute("id", "attributeSelectX");
+    attributeSelectX.setAttribute("style", `margin: 10px`);
+
+    attributeContainer.appendChild(attributeSelectX);
+
+    for (let i = 0; i < options.length; i++) {
+      const option = document.createElement("option");
+      option.setAttribute("value", `${option[i + 1]}`);
+      option.innerHTML = options[i];
+      attributeSelectX.appendChild(option);
+    }
+
+    const attributeSelectY = document.createElement("select");
+    attributeSelectY.setAttribute("id", "attributeSelectY");
+    attributeSelectY.setAttribute("style", `margin: 10px`);
+
+    attributeContainer.appendChild(attributeSelectY);
+
+    for (let i = 0; i < options.length; i++) {
+      const option = document.createElement("option");
+      option.setAttribute("value", `${option[i + 1]}`);
+      option.innerHTML = options[i];
+      attributeSelectY.appendChild(option);
+    }
+  }
 }
 
-document
-  .getElementById("openFileExplorer")
-  .addEventListener("click", function () {
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.accept = ".xlsx, .xls, .csv, .json";
-    fileInput.style.display = "none";
+//----------------------------GENERATE GRAPH--------------------------
 
-    document.body.appendChild(fileInput);
+async function generateGraph() {
+  const generateButton = document.getElementById("generateButton");
+  generateButton.style.visibility = "hidden";
+  const graphContainer = document.getElementById("graphContainer");
 
-    fileInput.addEventListener("change", function () {
-      handleFileSelection(fileInput);
-      v;
+  // clearing so it doesn't pile up
+  graphContainer.innerHTML = "";
+
+  // getting the graph, x, and y elements
+  const graph = document.getElementById("graphOptions");
+  const xElement = document.getElementById("attributeSelectX");
+  const yElement = document.getElementById("attributeSelectY");
+
+  //getting x and y values
+  const url = new URL("http://localhost:5173/getGraph");
+  const graphName = graph.options[graph.selectedIndex].text;
+  let x;
+  let y;
+
+  // validation for y
+  if (yElement) {
+    y = yElement.options[yElement.selectedIndex].text;
+
+    if (y) {
+      url.searchParams.append("y", y);
+    }
+  }
+
+  // validation for x
+  if (xElement) {
+    x = xElement.options[xElement.selectedIndex].text;
+    if (x) {
+      url.searchParams.append("x", x);
+    }
+  }
+  //  console.log(x)
+  //  console.log(y)
+
+  // appending x as a query parameter
+  url.searchParams.append("graph", graphName);
+
+  let responseText;
+  // fetching path
+  try {
+    const response = await fetch(url.toString(), {
+      method: "POST",
+      body: JSON.stringify({ x, y }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
-    fileInput.click();
+    if (!response.ok) {
+      console.error("Error fetching graph data:", response.statusText);
+      return;
+    }
 
-    document.body.removeChild(fileInput);
-  });
+    responseText = await response.text();
+    const path = JSON.parse(responseText);
+
+    if (!path || !path.path || !path.path.data) {
+      console.error("Invalid response format. Expected structure not found.");
+      console.error("Response text:", responseText);
+      return;
+    }
+
+    // decoding path
+    const textDecoder = new TextDecoder("utf-8");
+    const decodedPath = textDecoder.decode(new Uint8Array(path.path.data));
+    //console.log(decodedPath);
+
+    // adding image
+    const image = document.createElement("img");
+    image.setAttribute("src", decodedPath);
+    graphContainer.appendChild(image);
+    generateButton.style.visibility = "visible";
+  } catch (error) {
+    console.error("Error fetching graph data:", error);
+
+    if (responseText) {
+      console.error("Response text:", responseText);
+    }
+  }
+}
+
+//------------------------------RESET-----------------------------------
+
+async function resetForm() {
+  document.getElementById("fileInput").removeAttribute("disabled");
+
+  const form = document.getElementById("fileUploadForm");
+  form.reset();
+
+  document.getElementById("extractAttributeContainer").innerHTML =
+    "No csv file uploaded";
+  document.getElementById("insights").innerHTML = "";
+  document.getElementById("graphSelect").innerHTML = "No csv file uploaded";
+  document.getElementById("graphContainer").innerHTML = "";
+
+  try {
+    const url = new URL(`http://localhost:5173/reset`);
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      console.error(`Error resetting file: ${response.statusText}`);
+      return;
+    }
+    const reply = await response.text();
+    console.log(reply);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+window.addEventListener("beforeunload", resetForm);

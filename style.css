@@ -2,78 +2,180 @@
     margin: 0;
     padding: 0;
 }
-.navi:hover a{
-    color: white;
-    font-size :18px;
+body{
+   background-color: #6082b6;
+  /* background-color: #374cb4; */
 }
-.navi.active  {
-  background-color: #1e3a8a; /* Replace with your desired active color */
-}
-
-#tableContainer {
-    height: 8rem;
-    width: 100%;
-    overflow: auto;
+#fileContainer {
+    padding: 15px;
+    margin-right: 10px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    box-sizing: border-box;
   }
-
-  #tableContainer::-webkit-scrollbar {
-    width: 12px;
-    padding: -4px;
-  }
-
-  #tableContainer::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    padding: -4px;
-  }
-
-  #tableContainer::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 6px;
-    border: 3px solid #f1f1f1;
-  }
-
-  #tableContainer::-webkit-scrollbar-corner {
-    background: #f1f1f1;
-  }
-
-  #excelViewer{
-    display: flex;
-      flex-direction: column;
+  @media only screen and (min-width: 900px) {
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    #fileUploadForm{
+      width: 100%; display: flex; justify-content: space-around;
+    }
+    #fileContainer {
+      padding: 15px;
+      margin-right: 10px;
+      border: 1px solid #000000;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .navbar{
+      position: fixed;
+    }
+    .navbar ul{
+      border-radius: 0.75rem
+    }
+    .burger-menu{
+      visibility: hidden;
+    }
+    .main{
+      margin-top: 150px;
+    }
+    .custom2{
+      background-color: #1e3a8a; /* bg-blue-900 */
+    color: #ffffff; /* text-white */
+    font-weight: bold; /* font-bold */
+    border-radius: 0.375rem; /* rounded-md */
+    margin: 10px;
+    transition-duration: 0.3s; /* duration-300 */
+    width: 150px;
+    }
+   .custom2:hover {
+    transform: translateY(-1px); /* hover:-translate-y-1 */
+    transform: scale(1.1); /* hover:scale-110 */
+    background-color: #581c87; /* hover:bg-purple-900 */
+    }
+    .custom-button {
+      
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2rem;
+      width: 100%;
+      display: flex;
       justify-content: center;
-      align-items: center;
+    }
+    .navbar{
+      visibility: visible;
+      z-index: 100;
+    }
+    
+    .custom-button:hover {
+      
+      background-color: #1e3a8a;
+      transform: translateY(-1px) scale(1.1);
+    }
+    .nav1{
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2rem;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .nav2{
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2rem;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
 
-      border: 2px dashed #ccc;
-
+    .nav1:hover{
+      border-top-left-radius : 15px; border-bottom-left-radius : 15px;
+      background-color: #1e3a8a;
+      transform: translateY(-1px) scale(1.1);
+    }
+    .nav2:hover{
+      border-top-right-radius : 15px; border-bottom-right-radius : 15px;
+      background-color: #1e3a8a;
+      transform: translateY(-1px) scale(1.1);
+    }
   }
   
-  #fileInfo {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-  }
-
-  #resetButton {
-    margin-left: 10px;
-    cursor: pointer;
+  
+  @media only screen and (max-width: 900px) {
+    .navbar {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      visibility: hidden;
+      position:fixed;
+      z-index: 1;
+      border-radius: 10px;
+      transition: left 2s ease;
+      
+    }
+    .navbar ul {
+      width: 100%;
+      height: 85vh; 
+      box-shadow: 5px 10px 25px rgba(0, 0, 0, 0.1), 0 6px 8px rgba(0, 0, 0, 0.1);
+      background-color: #1e3a8a;
+      display: flex;
+      flex-direction: column;
+    }
     
+    
+    .burger-menu{
+      visibility: visible;
+      width: 60%;
+      height: 7vh;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      font-size: xx-large;
+      font-weight: bolder;
+      
+      cursor: pointer;
+      color: white;
+      position: relative;
+    }
+    .custom-button {
+      
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2rem;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    #fileUploadForm{
+      width: 100%; display: flex; 
+      flex-direction: column;
+      justify-content: center;
+      margin: 10px;
+    }
+    
+    .custom-button:hover {
+      background-color: #1e3a8a;
+      transform: translateY(-1px) scale(1.1);
+    }
+  
+    .custom2{
+      background-color: #1e3a8a; /* bg-blue-900 */
+    color: #ffffff; /* text-white */
+    font-weight: bold; /* font-bold */
+    border-radius: 0.375rem; /* rounded-md */
+    margin: 10px;
+    transition-duration: 0.3s; /* duration-300 */
+    width: 50%;
+    }
+   .custom2:hover {
+    transform: translateY(-1px); /* hover:-translate-y-1 */
+    transform: scale(1.1); /* hover:scale-110 */
+    background-color: #581c87; /* hover:bg-purple-900 */
+    }
   }
 
-  @keyframes tans {
-    from{
-        transform: translateX(0px);
-    }
-
-    to{
-        transform: translateX(-50px);
-    }
-
+  
+    @font-face {
+        font-family: myFirstFont;
+        src: url(akaPosse.ttf);
+      }
+  .superfont{
+    font-family: myFirstFont;
   }
-
-  .trans{
-    animation: tans 1.5s ease-in-ease-out ;
-    animation-fill-mode: forwards;
-}
-
-
-
-
