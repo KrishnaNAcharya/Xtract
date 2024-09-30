@@ -15,7 +15,6 @@ Run this command on your terminal
 ```bash
 npm i
 ```
-### Install python dependencies
 ```bash
 pip install numpy
 ```
