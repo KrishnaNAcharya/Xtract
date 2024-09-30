@@ -11,23 +11,30 @@ git clone https://github.com/AvyayNayak/Xtract.git
 ```
 Also, ensure that there is a Python executable installed on your device.
 ### Install dependencies
-Open your terminal and run this
+Run this command on your terminal
 ```bash
 npm i
 ```
-For the python scripts, a virtual environment already exists within the repository. Simply run this command to it
+### Install python dependencies
 ```bash
-.\env\Scripts\activate
+pip install numpy
 ```
-For those who run into an unauthorized access error, run the following command to bypass the execution policy temporarily
 ```bash
-Set-ExecutionPolicy Bypass -Scope Process
+pip install scipy
 ```
-If you want to make a permanent change to the execution policy, run this
 ```bash
-Set-ExecutionPolicy Bypass -Scope CurrentUser
+pip install matplotlib
 ```
-
+```bash
+pip install pandas
+```
+```bash
+pip install seaborn
+```
+### To run the web app, 
+```bash
+node index.js
+```
 ## How to update code
 If working on a new feature
 
