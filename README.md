@@ -5,11 +5,11 @@ The results of the analysis so obtained are sent back to the user.
 These results include the statistical data and graphs describing the dataset.
 
 ## Steps to run
-Firstly, clone this repository in your desired directory
+Firstly, clone this repository
 ```bash
 git clone https://github.com/AvyayNayak/Xtract.git
 ```
-Also, ensure that there is a Python executable installed on your device.
+Ensure that there is a Python installed on your device.
 ### Install dependencies
 Run these commands on your terminal
 ```bash
