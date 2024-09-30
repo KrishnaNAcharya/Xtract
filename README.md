@@ -37,4 +37,4 @@ node index.js
 ```
 ## How to update code
 Create a new branch with an appropriate name and work on that branch.
-follow the commit message semantics mentioned [here](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716)
+Follow the commit message semantics mentioned [here](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716)
