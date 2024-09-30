@@ -36,27 +36,5 @@ pip install seaborn
 node index.js
 ```
 ## How to update code
-If working on a new feature
-
-Create new branch and work in that preferably named `feat/featureName`
-
-```bash
-git add filename
-#or
-git add .
-
-git commit -m "sutiable msg"
-```
-
-#### Note: Ignore this warning for now, re-run the command that created this
-`warning: in the working copy of 'tsconfig.json', LF will be replaced by CRLF the next time Git touches it`
-
-```bash
-git checkout -b branchname
-```
-
-To push local branch to remote
-
-```bash
-git push -u origin branchname
-```
+Create a new branch with an appropriate name and work on that branch.
+follow the commit message semantics mentioned [here](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716)
