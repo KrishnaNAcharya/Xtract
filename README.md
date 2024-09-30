@@ -11,7 +11,7 @@ git clone https://github.com/AvyayNayak/Xtract.git
 ```
 Also, ensure that there is a Python executable installed on your device.
 ### Install dependencies
-Run this command on your terminal
+Run these commands on your terminal
 ```bash
 npm i
 ```
