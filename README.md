@@ -16,19 +16,7 @@ Run these commands on your terminal
 npm i
 ```
 ```bash
-pip install numpy
-```
-```bash
-pip install scipy
-```
-```bash
-pip install matplotlib
-```
-```bash
-pip install pandas
-```
-```bash
-pip install seaborn
+pip install numpy scipy matplotlib pandas seaborn
 ```
 ### To run the web app, 
 ```bash
