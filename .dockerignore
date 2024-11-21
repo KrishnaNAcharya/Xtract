@@ -1,0 +1,19 @@
+# Node.js-related
+node_modules/
+npm-debug.log
+
+# Python-related
+__pycache__/
+*.pyc
+*.pyo
+venv/
+
+# System and IDE files
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Docker-related
+Dockerfile
+.dockerignore
