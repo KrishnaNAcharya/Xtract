@@ -21,6 +21,20 @@ pip install numpy scipy matplotlib pandas seaborn
 ```bash
 node index.js
 ```
+
+## Steps to run using Docker
+###Build the docker image
+```bash
+docker build -t *image-name* .
+```
+### Check if the image was created 
+```bash
+docker images
+```
+### Run the Docker image
+```bash
+docker run -p 5173:5173 *image-name*
+```
 ## How to update code
 Create a new branch with an appropriate name and work on that branch.
 Follow the commit message semantics mentioned [here](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716)
