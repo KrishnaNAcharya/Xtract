@@ -1,8 +1,7 @@
 # Xtract
-This project aims at providing statistical insights to the users from the datasets they provide as input.
-The dataset recieved from the user is processed by the python scripts at the backend.
-The results of the analysis so obtained are sent back to the user.
-These results include the statistical data and graphs describing the dataset.
+This project aims at providing statistical insights to the users from their datasets.
+The datasets are processed by the python scripts at the backend and the results are sent back to the user.
+These results contain information describing the dataset.
 
 ## Steps to run
 Firstly, clone this repository
