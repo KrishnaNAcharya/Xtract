@@ -23,7 +23,7 @@ node index.js
 ```
 
 ## Steps to run using Docker
-###Build the docker image
+### Build the docker image
 ```bash
 docker build -t *image-name* .
 ```
