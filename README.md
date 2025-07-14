@@ -6,7 +6,7 @@ These results contain information describing the dataset.
 ## Steps to run
 Firstly, clone this repository
 ```bash
-git clone https://github.com/AvyayNayak/Xtract.git
+git clone https://github.com/KrishnaNAcharya/Xtract.git
 ```
 Ensure that there is a Python installed on your device.
 ### Install dependencies
